@@ -39,24 +39,34 @@ class AuthController extends Controller
     ], Response::HTTP_OK);
 }
 
-    public function login(Request $request)
-    {
-        $request->validate([
+public function login(Request $request)
+{
+    // Validar los campos del request
+    $request->validate([
         'email' => 'required|string',
         'password' => 'required|string',
-        ]);
-        $user = User::query()->where('email', $request['email'])->first();
-        // Validamos si el usuario existe
-        if (!$user) {
-            return response(
-                ["success" => false, "message" => "Email or password are invalid",], Response::HTTP_NOT_FOUND);
-        }
-        // Validamos la contraseña
-        if (!Hash::check($request['password'], $user->password)) {
-            return response(["success" => false, "message" => "Email or password are invalid"], Response::HTTP_NOT_FOUND);
-        }
+    ]);
 
-         // Generamos el token JWT
+    // Buscar el usuario por su email
+    $user = User::where('email', $request['email'])->first();
+
+    // Validar si el usuario existe
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Email or password are invalid',
+        ], Response::HTTP_NOT_FOUND);
+    }
+
+    // Validar la contraseña
+    if (!Hash::check($request['password'], $user->password)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Email or password are invalid',
+        ], Response::HTTP_NOT_FOUND);
+    }
+
+    // Generar el token JWT
     if (!$token = JWTAuth::fromUser($user)) {
         return response()->json([
             'success' => false,
@@ -64,11 +74,11 @@ class AuthController extends Controller
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    // Retornamos la respuesta con el token
+    // Retornar el token junto con los datos del usuario
     return response()->json([
         'success' => true,
         'token' => $token,
         'user' => $user
     ], Response::HTTP_ACCEPTED);
-    }
+}
 }

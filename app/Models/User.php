@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject; // Agregar esta línea
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject // Implementar JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -33,4 +33,28 @@ class User extends Authenticatable
     protected $attributes = [
         'role' => 'user',
     ];
+
+    /**
+     * Implementación de JWTSubject
+     */
+
+    /**
+     * Get the identifier that will be stored in the JWT token.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey(); // Retorna el identificador único del usuario, normalmente el ID
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return []; // Puedes agregar reclamos personalizados si lo deseas, de lo contrario, devuelve un array vacío
+    }
 }
