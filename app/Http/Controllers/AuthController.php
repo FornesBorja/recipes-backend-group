@@ -35,7 +35,6 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Usuario registrado exitosamente.',
             'user' => $user,
-            'token' => $token,
         ], Response::HTTP_OK);
     }
 }
