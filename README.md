@@ -1,6 +1,8 @@
-cp .env.example .env
-npm i
-composer install
-php artisan key:generate
-php artisan migrate:fresh --seed
-php artisan serve
+cp .env.example .env  <br/>
+npm i<br/>
+composer install<br/>
+php artisan key:generate<br/>
+php artisan migrate:fresh --seed<br/>
+php artisan serve<br/>
+
+Para ejecutar PHPStan: vendor/bin/phpstan analyse app --level=7
