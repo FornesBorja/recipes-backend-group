@@ -115,4 +115,30 @@ class RecipesController extends Controller
             'recipe' => $recipe,
         ], 200);
     }
+
+    public function deleteOwnRecipe($recipeId)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $recipe = Recipe::find($recipeId);
+
+        if (!$recipe) {
+            return response()->json(['error' => 'Recipe not found'], 404);
+        }
+
+        if ($recipe->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $recipe->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Recipe deleted successfully',
+        ], 200);
+    }
 }

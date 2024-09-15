@@ -11,4 +11,5 @@ Route::middleware(customAuth::class)->group(function () {
     Route::post('/create', [RecipesController::class, 'createRecipe']);
     Route::get('/own', [RecipesController::class, 'getOwnRecipes']);
     Route::put('/update/{recipeId}', [RecipesController::class, 'updateOwnRecipe']);
+    Route::delete('/delete/{recipeId}', [RecipesController::class, 'deleteOwnRecipe']);
 });
