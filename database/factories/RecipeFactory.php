@@ -26,7 +26,7 @@ class RecipeFactory extends Factory
             'prep_time' => $this->faker->numberBetween(5, 60),
             'cook_time' => $this->faker->numberBetween(10, 120),
             'servings' => $this->faker->numberBetween(1, 8),
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }
