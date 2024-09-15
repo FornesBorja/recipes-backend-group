@@ -16,6 +16,19 @@ class RecipesController extends Controller
         return response()->json($recipes, 200);
     }
 
+    public function getOwnRecipes()
+    {
+    $user = JWTAuth::parseToken()->authenticate();
+
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    $recipes = Recipe::where('user_id', $user->id)->get();
+
+    return response()->json($recipes, 200);
+}
+
     public function getRecipeByUserId($userId)
     {
         $recipes = Recipe::where('user_id', $userId)->get();

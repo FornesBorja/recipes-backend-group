@@ -9,4 +9,5 @@ Route::get('/user/{userId}', [RecipesController::class, 'getRecipeByUserId'])->n
 
 Route::middleware(customAuth::class)->group(function () {
     Route::post('/create', [RecipesController::class, 'createRecipe']);
+    Route::get('/own', [RecipesController::class, 'getOwnRecipes']);
 });
