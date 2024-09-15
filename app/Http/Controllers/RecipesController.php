@@ -69,4 +69,50 @@ class RecipesController extends Controller
             'recipe' => $recipe,
         ], 201);
     }
+
+    public function updateOwnRecipe(Request $request, $recipeId)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $recipe = Recipe::find($recipeId);
+
+        if (!$recipe) {
+            return response()->json(['error' => 'Recipe not found'], 404);
+        }
+
+        if ($recipe->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'sometimes|required|string|max:255',
+            'ingredients' => 'sometimes|required|string',
+            'instructions' => 'sometimes|required|string',
+            'prep_time' => 'nullable|integer',
+            'cook_time' => 'nullable|integer',
+            'servings' => 'nullable|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $recipe->update($request->only([
+            'title', 'ingredients', 'instructions', 'prep_time', 'cook_time', 'servings'
+        ]));
+
+        $recipe->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'recipe' => $recipe,
+        ], 200);
+    }
 }
