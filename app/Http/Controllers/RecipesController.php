@@ -16,7 +16,7 @@ class RecipesController extends Controller
         return response()->json($recipes, 200);
     }
 
-    public function getByUserId($userId)
+    public function getRecipeByUserId($userId)
     {
         $recipes = Recipe::where('user_id', $userId)->get();
         return response()->json($recipes, 200);
