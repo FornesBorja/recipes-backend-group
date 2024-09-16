@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User; // <-- Asegúrate de importar el modelo correcto
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
 {
     public function getUserByUserId($userId)
     {
-        // Busca al usuario por el campo "userId"
-        $user = User::where('id', $userId)->first(); // <-- Asegúrate de que "id" es el campo correcto
+        $user = User::where('id', $userId)->first(); 
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
@@ -21,25 +22,69 @@ class UsersController extends Controller
         return response()->json($user, 200);
     }
 
-    public function deleteUserById($userId) // Cambié recipeId a userId
-{
-    // Encuentra el usuario por el ID proporcionado
-    $user = User::find($userId);
+    public function deleteUserById($userId)
+    {
+        $user = User::find($userId);
 
-    // Si el usuario no existe, devuelve un error 404
-    if (!$user) {
+        if (!$user) {
         return response()->json(['error' => 'User not found'], 404);
-    }
+        }
 
-    // Elimina el usuario
     $user->delete();
 
-    // Devuelve una respuesta de éxito
-    return response()->json([
-        'success' => true,
-        'message' => 'User deleted successfully',
-    ], 200);
-}
+        return response()->json([
+            'success' => true,
+            'message' => 'User deleted successfully',
+        ], 200);
+    }
 
+    public function updateOwnUser(Request $request, $userId)
+{
+    try {
+        $authenticatedUser = auth()->user();
+
+        if (!$authenticatedUser) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        if ($authenticatedUser->id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'sometimes|required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $data = $request->only(['name', 'email', 'password']);
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($data);
+
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ], 200);
+    } catch (\Exception $e) {
+        \Log::error('Update user error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
+    }
 }
-    
+}   
