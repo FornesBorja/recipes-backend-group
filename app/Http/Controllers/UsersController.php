@@ -20,5 +20,26 @@ class UsersController extends Controller
 
         return response()->json($user, 200);
     }
+
+    public function deleteUserById($userId) // Cambié recipeId a userId
+{
+    // Encuentra el usuario por el ID proporcionado
+    $user = User::find($userId);
+
+    // Si el usuario no existe, devuelve un error 404
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    // Elimina el usuario
+    $user->delete();
+
+    // Devuelve una respuesta de éxito
+    return response()->json([
+        'success' => true,
+        'message' => 'User deleted successfully',
+    ], 200);
+}
+
 }
     
