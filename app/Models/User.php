@@ -57,4 +57,8 @@ class User extends Authenticatable implements JWTSubject // Implementar JWTSubje
     {
         return []; // Puedes agregar reclamos personalizados si lo deseas, de lo contrario, devuelve un array vacío
     }
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
 }

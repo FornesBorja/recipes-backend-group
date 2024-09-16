@@ -27,14 +27,16 @@ class UsersController extends Controller
         $user = User::find($userId);
 
         if (!$user) {
-        return response()->json(['error' => 'User not found'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
-    $user->delete();
+        $user->recipes()->delete();
+
+        $user->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'User deleted successfully',
+            'message' => 'User and their recipes deleted succesfully',
         ], 200);
     }
 
@@ -44,7 +46,7 @@ class UsersController extends Controller
             $authenticatedUser = auth()->user();
 
             if (!$authenticatedUser) {
-                return response()->json(['error' => 'Usuario no autenticado'], 401);
+                return response()->json(['error' => 'User not logged'], 401);
             }
 
             $validator = Validator::make($request->all(), [
@@ -73,8 +75,8 @@ class UsersController extends Controller
                 'user' => $authenticatedUser,
             ], 200);
         } catch (\Exception $e) {
-            \Log::error('Error al actualizar usuario:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return response()->json(['error' => 'Algo salió mal: ' . $e->getMessage()], 500);
+            \Log::error('Error updating user:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
         }
     }
 }
