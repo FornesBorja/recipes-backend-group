@@ -38,53 +38,43 @@ class UsersController extends Controller
         ], 200);
     }
 
-    public function updateOwnUser(Request $request, $userId)
-{
-    try {
-        $authenticatedUser = auth()->user();
+    public function updateOwnUser(Request $request)
+    {
+        try {
+            $authenticatedUser = auth()->user();
 
-        if (!$authenticatedUser) {
-            return response()->json(['error' => 'User not authenticated'], 401);
-        }
+            if (!$authenticatedUser) {
+                return response()->json(['error' => 'Usuario no autenticado'], 401);
+            }
 
-        $user = User::find($userId);
+            $validator = Validator::make($request->all(), [
+                'name' => 'sometimes|string|max:255',
+                'email' => 'sometimes|email|max:255|unique:users,email,' . $authenticatedUser->id,
+                'password' => 'sometimes|string|min:6|confirmed',
+            ]);
 
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
 
-        if ($authenticatedUser->id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+            $data = $request->only(['name', 'email', 'password']);
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'sometimes|required|string|min:6|confirmed',
-        ]);
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }
 
-        if ($validator->fails()) {
+            $authenticatedUser->fill($data)->save();
+
             return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422);
+                'success' => true,
+                'user' => $authenticatedUser,
+            ], 200);
+        } catch (\Exception $e) {
+            \Log::error('Error al actualizar usuario:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return response()->json(['error' => 'Algo salió mal: ' . $e->getMessage()], 500);
         }
-
-        $data = $request->only(['name', 'email', 'password']);
-
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        $user->update($data);
-
-        return response()->json([
-            'success' => true,
-            'user' => $user,
-        ], 200);
-    } catch (\Exception $e) {
-        \Log::error('Update user error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-        return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
     }
 }
-}   
