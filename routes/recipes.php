@@ -16,5 +16,5 @@ Route::middleware(customAuth::class)->group(function () {
 });
 
 Route::middleware(isAdmin::class)->group(function () {
-    Route::delete('/delete/{recipeId}', [RecipesController::class, 'deleteRecipeById']);
+    Route::delete('/delete/admin/{recipeId}', [RecipesController::class, 'deleteRecipeById']);
 });
