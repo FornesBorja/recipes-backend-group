@@ -15,9 +15,9 @@ return new class extends Migration {
             $table->string('title');
             $table->text('ingredients');
             $table->text('instructions');
-            $table->integer('prep_time'); 
-            $table->integer('cook_time');
-            $table->integer('servings');
+            $table->integer('prep_time')->nullable();
+            $table->integer('cook_time')->nullable();
+            $table->integer('servings')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

@@ -1,0 +1,536 @@
+{
+	"info": {
+		"_postman_id": "b7ab0e2c-6034-4cfb-aeea-e737bf39b244",
+		"name": "Recipes",
+		"description": "This collection has endpoints related to recipes and its users.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36919197"
+	},
+	"item": [
+		{
+			"name": "Recipes",
+			"item": [
+				{
+					"name": "Get all recipes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								""
+							]
+						},
+						"description": "Fetch all recipes, no need to be logged in."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all recipes from id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/user/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								"user",
+								"2"
+							]
+						},
+						"description": "Fetch a recipe (with the id we specify), no need to be logged in."
+					},
+					"response": []
+				},
+				{
+					"name": "Get own recipes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXV0aFwvbG9naW4iLCJpYXQiOjE3MjY0MTAwOTgsImV4cCI6MTcyNjQxMzY5OCwibmJmIjoxNzI2NDEwMDk4LCJqdGkiOiJBck5rRjVXbFdJYTJKbmY2Iiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.k6ikGsgyfFr2Ltt4oSUpKS7uqZPaX5otJ-9d8X2jg3I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/own",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								"own"
+							]
+						},
+						"description": "Fetch all the recipes of the user that's logged."
+					},
+					"response": []
+				},
+				{
+					"name": "Create recipe",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXV0aFwvbG9naW4iLCJpYXQiOjE3MjY0MTAwOTgsImV4cCI6MTcyNjQxMzY5OCwibmJmIjoxNzI2NDEwMDk4LCJqdGkiOiJBck5rRjVXbFdJYTJKbmY2Iiwic3ViIjoyLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.k6ikGsgyfFr2Ltt4oSUpKS7uqZPaX5otJ-9d8X2jg3I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"Paella\",\r\n    \"ingredients\" : \"arroz, judías, pollo\",\r\n    \"instructions\" : \"dsdsadsdsasdas\",\r\n    \"prep_time\" : \"34\",\r\n    \"cook_time\" : \"50\",\r\n    \"servings\" : 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								"create"
+							]
+						},
+						"description": "Create a recipe, the user id will be the id of the user that's logged."
+					},
+					"response": []
+				},
+				{
+					"name": "Update one of their recipes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXV0aC9sb2dpbiIsImlhdCI6MTcyNjUxMzMyMSwiZXhwIjoxNzI2NTE2OTIxLCJuYmYiOjE3MjY1MTMzMjEsImp0aSI6InZicGVxYzBuSXRYYjVmeWwiLCJzdWIiOiIxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.amMLarhUwGkfOGTPFYi_4L6Dfahd4Ecinb7EWpm9PxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"example\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/update/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								"update",
+								"2"
+							]
+						},
+						"description": "Updates the recipe with id is in the endpoint, you need to be the owner of that recipe, that's why you need to be logged."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one of their recipes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXV0aC9sb2dpbiIsImlhdCI6MTcyNjUxMzMyMSwiZXhwIjoxNzI2NTE2OTIxLCJuYmYiOjE3MjY1MTMzMjEsImp0aSI6InZicGVxYzBuSXRYYjVmeWwiLCJzdWIiOiIxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.amMLarhUwGkfOGTPFYi_4L6Dfahd4Ecinb7EWpm9PxA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"example\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								"2"
+							]
+						},
+						"description": "Deletes the recipe with id is in the endpoint, you need to be the owner of that recipe, that's why you need to be logged."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one recipe (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXV0aC9sb2dpbiIsImlhdCI6MTcyNjUxMjEwNiwiZXhwIjoxNzI2NTE1NzA2LCJuYmYiOjE3MjY1MTIxMDYsImp0aSI6IjRLN1pra0k5R2VPQkFWTE8iLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.H9_gko0x5Y1EdAprenCsAFjIMTh5Pu0A9dWjaWYzuHQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"example\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/recipes/delete/admin/10",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"recipes",
+								"delete",
+								"admin",
+								"10"
+							]
+						},
+						"description": "Users with admin role can delete the recipe they want."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoint related to recipes table"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								},
+								"disableCookies": false
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Santi Alfaro\",\r\n    \"email\": \"santi@alfaro.com\",\r\n    \"password\": \"password123\",\r\n    \"password_confirmation\": \"password123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/auth/register",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"auth",
+										"register"
+									]
+								},
+								"description": "Creates a user"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"email\": \"xrice@example.com\",\r\n    \"password\": \"password\"\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/auth/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"auth",
+										"login"
+									]
+								},
+								"description": "It returns a token that gives you access to different endpoints."
+							},
+							"response": []
+						},
+						{
+							"name": "Login (admin)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"password\"\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/auth/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"auth",
+										"login"
+									]
+								},
+								"description": "This endpoint in particular is not different than the previous but is an example to test admin endpoints."
+							},
+							"response": []
+						}
+					],
+					"description": "Endpoint related to register and login"
+				},
+				{
+					"name": "Get user by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/users/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Fetch the information of the user with the id in the endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "Update own user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXV0aC9sb2dpbiIsImlhdCI6MTcyNjUxMjEyMywiZXhwIjoxNzI2NTE1NzIzLCJuYmYiOjE3MjY1MTIxMjMsImp0aSI6IjFQSjFxWVl0eEpJYzBSZjMiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.CQpuuJ_thmUrJwn2Teh3Yj9JpW0fvsIioWTlvLskHEg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/users/update",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"update"
+							]
+						},
+						"description": "The user that's logged can update their name, email or password."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXV0aC9sb2dpbiIsImlhdCI6MTcyNjUxMjEwNiwiZXhwIjoxNzI2NTE1NzA2LCJuYmYiOjE3MjY1MTIxMDYsImp0aSI6IjRLN1pra0k5R2VPQkFWTE8iLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.H9_gko0x5Y1EdAprenCsAFjIMTh5Pu0A9dWjaWYzuHQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/users/delete/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"delete",
+								"2"
+							]
+						},
+						"description": "An Admin can delete the user they want."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoint related to users table"
+		}
+	]
+}
