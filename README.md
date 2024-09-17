@@ -67,7 +67,8 @@ This diagram shows the structure of the database tables.
 
 ## Endpoints ⚙️
 
-You can find all endpoints here: [Postman Endpoints](https://documenter.getpostman.com/view/36919197/2sAXqqbhUj)
+You can find all endpoints here: [Postman Endpoints](https://documenter.getpostman.com/view/36919197/2sAXqqbhUj) <br/>
+In app > Http > Collections you can find the collection of the endpoint to import into your postman.
 
 ## Points of Improvement 💡
 
